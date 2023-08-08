@@ -1,0 +1,50 @@
+version: "3.7"
+
+services:
+  nginx:
+    build: docker/nginx
+    volumes:
+      - ./src/:/var/www/html/
+    ports:
+      - "80:80"
+
+  phpfpm:
+    build: docker/phpfpm
+    volumes:
+      - ./src/:/var/www/html/
+
+  mysql:
+    image: mysql:8.1.0
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    ports:
+      - "3306:3306"
+
+  mail:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /tmp
+    volumes:
+      - maildir:/tmp
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=mysql
+      - PMA_USER=test
+      - PMA_PASSWORD=test
+    ports:
+      - "8080:80"
+
+volumes:
+  mysql:
+  maildir:
