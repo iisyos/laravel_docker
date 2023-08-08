@@ -12,3 +12,15 @@ services:
     build: docker/phpfpm
     volumes:
       - ./src/:/var/www/html/
+  
+  mysql:
+    image: mysql:8.1.0
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    ports:
+      - "3306:3306"
