@@ -7,12 +7,12 @@ services:
       - ./src/:/var/www/html/
     ports:
       - "80:80"
-  
+
   phpfpm:
     build: docker/phpfpm
     volumes:
       - ./src/:/var/www/html/
-  
+
   mysql:
     image: mysql:8.1.0
     volumes:
@@ -24,7 +24,7 @@ services:
       MYSQL_PASSWORD: test
     ports:
       - "3306:3306"
-      
+
   mail:
     image: mailhog/mailhog
     ports:
@@ -34,6 +34,16 @@ services:
       MH_MAILDIR_PATH: /tmp
     volumes:
       - maildir:/tmp
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=mysql
+      - PMA_USER=test
+      - PMA_PASSWORD=test
+    ports:
+      - "8080:80"
 
 volumes:
   mysql:
