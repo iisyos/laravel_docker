@@ -16,7 +16,7 @@ services:
   mysql:
     image: mysql:8.1.0
     volumes:
-      - ./docker/mysql/data:/var/lib/mysql
+      - mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: test
@@ -24,3 +24,17 @@ services:
       MYSQL_PASSWORD: test
     ports:
       - "3306:3306"
+      
+  mail:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /tmp
+    volumes:
+      - maildir:/tmp
+
+volumes:
+  mysql:
+  maildir:
