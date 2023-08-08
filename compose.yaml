@@ -1,0 +1,14 @@
+version: "3.7"
+
+services:
+  nginx:
+    build: docker/nginx
+    volumes:
+      - ./src/:/var/www/html/
+    ports:
+      - "80:80"
+  
+  phpfpm:
+    build: docker/phpfpm
+    volumes:
+      - ./src/:/var/www/html/
